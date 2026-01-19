@@ -198,12 +198,7 @@ Why not check manually:
 
 
 
-8. Automation Failure Recovery Logic
 
-Why needed:
-Your project is special because:
-Normal CI/CD stops on failure.
-Your CI/CD tries to fix failure.
 
 
 
