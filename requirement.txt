@@ -1,0 +1,205 @@
+
+
+So the requirements come from these needs.
+
+They are of two types:
+
+1. Functional requirements (what the system must do)
+2. Technology requirements (what tools are needed to do it)
+
+
+1. Functional Requirements
+
+Your system must be able to:
+
+1. Accept code changes
+   When a developer pushes code, the system should notice it.
+   Reason: This is how automation starts.
+
+2. Trigger pipeline automatically
+   No manual start.
+   Reason: CI/CD means continuous and automatic.
+
+3. Build application
+   Convert source code into executable/package.
+   Reason: Without build, you cannot test or deploy.
+
+4. Run automated tests
+   Check if code works correctly.
+   Reason: To avoid deploying broken code.
+
+5. Deploy application
+   Move code to server/cloud.
+   Reason: Final goal is to make software available.
+
+6. Monitor pipeline
+   Check if any step fails.
+   Reason: Without monitoring, failures go unnoticed.
+
+7. Detect failure
+   Identify build/test/deploy errors.
+   Reason: Recovery cannot start without detection.
+
+8. Send notification
+   Alert DevOps/Developer.
+   Reason: Humans must know when automation fails.
+
+9. Analyze failure
+   Check logs, error types.
+   Reason: To decide recovery action.
+
+10. Automatic recovery
+
+* Retry job
+* Rollback deployment
+  Reason: Reduce manual effort.
+
+11. Manual intervention support
+    Allow human fixing when automation fails.
+
+
+* Reliable
+* Widely used in industry
+* Support automation
+* Support failure handling
+
+
+
+
+1. Git / GitHub / GitLab (Source Code Management)
+
+Why needed:
+
+* To store code
+* To track versions
+* To trigger pipeline on push
+
+Why not manual file copy:
+
+* No automation
+* No version history
+* No collaboration
+
+Git is mandatory for CI/CD.
+
+2. CI/CD Tool (Jenkins / GitHub Actions / GitLab CI)
+
+Why needed:
+
+* To define pipeline stages
+* To automate build, test, deploy
+* To detect failures
+* To retry jobs
+* To integrate notifications
+
+Why not normal scripts:
+
+* Scripts cannot manage pipelines easily
+* No visualization
+* No built-in failure handling
+
+CI/CD tools provide:
+
+* Job scheduling
+* Logs
+* Status monitoring
+* Retry and rollback support
+
+
+3. Build Tool (Maven / Gradle / npm / etc.)
+
+Why needed:
+
+* To compile and package code
+
+Why not manual compile:
+
+* Error-prone
+* Slow
+* Not repeatable
+
+Build tools make builds:
+
+* Consistent
+* Automated
+* Fast
+
+
+4. Testing Framework (JUnit / PyTest / Selenium etc.)
+
+Why needed:
+
+* To automatically verify correctness
+
+Why not manual testing:
+
+* Takes time
+* Not scalable
+* Breaks CI/CD principle
+
+Automated tests ensure:
+
+* Quality
+* Stability
+* Safe deployment
+
+
+5. Deployment Technology (Docker / Kubernetes / Cloud)
+
+Why needed:
+
+* To deploy in same environment every time
+* To rollback easily
+* To scale easily
+
+Why not direct server install:
+
+* Environment mismatch
+* Hard rollback
+* Manual errors
+
+Containers make recovery easy:
+
+* Just replace broken container
+* Roll back to previous image
+
+
+6. Monitoring & Logging (Built-in CI/CD logs, Prometheus, etc.)
+
+Why needed:
+
+* To detect where failure happened
+* To support recovery decisions
+
+Why not just error messages:
+
+* Not enough detail
+* No debugging support
+
+
+7. Notification Service (Email / Slack / Teams)
+
+Why needed:
+
+* Humans must be informed when automation fails
+
+Why not check manually:
+
+* Delays
+* Missed failures
+* Not professional
+
+
+
+8. Automation Failure Recovery Logic
+
+Why needed:
+Your project is special because:
+Normal CI/CD stops on failure.
+Your CI/CD tries to fix failure.
+
+
+
+
+
+
