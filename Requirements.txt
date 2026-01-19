@@ -6,11 +6,25 @@ The system shall integrate with a version control system to store and manage sou
 The system shall automatically trigger the CI/CD pipeline whenever new code is committed to the repository.
 
 3. Build Automation
+The system shall automatically build the application from the committed source code.
+
 4. Automated Testing
+The system shall execute automated tests (unit, integration, and regression tests) after a successful build.
+
 5. Code Quality Analysis
+The system shall perform code quality analysis using static code analysis tools.
+
 6. Artifact Generation
+The system shall generate deployable build artifacts such as binaries, packages, or container images.
+
 7. Deployment to Staging
+The system shall deploy the application to a staging environment for validation and testing.
+
 8. Deployment to Production
+The system shall deploy the application to the production environment after successful staging and approval.
+
 9. Monitoring and Logging
+The system shall monitor deployments and maintain logs for build, test, and deployment activities.
+
 10. Notification System
-The system shall handle increasing workloads and scale resources as needed.
+The system shall notify developers and DevOps engineers about the status of builds, tests, and deployments.

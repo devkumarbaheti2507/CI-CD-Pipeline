@@ -1,46 +1,25 @@
-# Requirements for CI/CD Pipeline System
-
-## 1. Functional Requirements
-
-### FR1: Code Version Control Integration
-
-The system shall integrate with a version control system to store and manage source code.
-
-### FR2: Pipeline Triggering
-
-The system shall automatically trigger the CI/CD pipeline whenever new code is committed to the repository.
-
-### FR3: Build Automation
-
-The system shall automatically build the application from the committed source code.
-
-### FR4: Automated Testing
-
-The system shall execute automated tests (unit, integration, and regression tests) after a successful build.
-
 ### FR5: Code Quality Analysis
 
-The system shall perform static code analysis to identify bugs, vulnerabilities, and code quality issues.
+
 
 ### FR6: Artifact Generation
 
-The system shall generate deployable build artifacts such as binaries, packages, or container images.
+
 
 ### FR7: Deployment to Staging
 
-The system shall deploy the application to a staging environment for validation and testing.
 
 ### FR8: Deployment to Production
 
-The system shall deploy the application to the production environment after successful staging and approval.
+
 
 ### FR9: Monitoring and Logging
 
-The system shall monitor deployments and maintain logs for build, test, and deployment activities.
+
 
 ### FR10: Notification System
 
-The system shall notify developers and DevOps engineers about the status of builds, tests, and deployments.
+
 
 ---
 
