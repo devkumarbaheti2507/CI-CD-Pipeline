@@ -7,11 +7,3 @@ Requirements for this project:
 5. Scripting Language: Python
 6. Notification Service: Email
 7. Web Browser: For monitoring pipeline execution
-
-Non-Functional Requirements:
-
-1. Reliability: The system should minimize manual intervention during failures.
-2. Scalability: The system should support multiple projects and pipelines.
-3. Performance: Pipeline execution overhead should be minimal.
-4. Maintainability: Pipeline configurations should be modular and easy to update.
-5. Security: Credentials and secrets must be stored securely.
