@@ -1,4 +1,4 @@
-Functional Requirements:
+## 1. Functional Requirements:
 1. Code Version Control Integration
 The system shall integrate with a version control system to store and manage source code.
 
@@ -28,3 +28,43 @@ The system shall monitor deployments and maintain logs for build, test, and depl
 
 10. Notification System
 The system shall notify developers and DevOps engineers about the status of builds, tests, and deployments.
+
+
+
+## 2. Non-Functional Requirements:
+1. Reliability
+The system shall ensure consistent and repeatable builds and deployments.
+
+2. Performance
+The system shall complete build and test processes within acceptable time limits.
+
+3. Scalability
+The system shall support multiple projects and concurrent pipeline executions.
+
+4. Security
+The system shall restrict deployment access to authorized users only.
+
+5. Availability
+The system shall be available for use with minimal downtime.
+
+6. Maintainability
+The system shall be easy to update, extend, and maintain.
+
+
+## 3. User Requirements:
+1. Developer Requirements
+- Developers should be able to commit code easily.
+- Developers should receive quick feedback on build and test results.
+2. Tester Requirements
+- Testers should be able to view test execution results.
+- Testers should validate software quality before production release.
+3. DevOps Engineer Requirements
+- DevOps engineers should manage deployment workflows.
+- DevOps engineers should monitor application health post-deployment.
+System Constraints:
+1. Tool Constraint
+The system shall use standard CI/CD tools (e.g., Jenkins, GitHub Actions, GitLab CI).
+2. Platform Constraint
+The system shall run on commonly used operating systems or cloud platforms.
+Short Exam-Friendly Summary:
+> The CI/CD pipeline system must automate code integration, testing, deployment, monitoring, and notification processes while ensuring reliability, security, and scalability. It supports developers, testers, and DevOps engineers by providing continuous feedback and controlled deployments.
