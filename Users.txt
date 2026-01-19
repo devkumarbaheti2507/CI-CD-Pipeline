@@ -1,0 +1,11 @@
+Users of the System:
+
+1. Developers:
+    Committing the source code
+    Receive notificationa about their builds
+2. DevOps Engineer:
+    Configure CI/CD Pipeline
+    Define recovery strategies and deployment rules
+3. Organizationa / Development Teams:
+    Achieve faster and more reliable software releases
+    Reduce downtime and operational costs
