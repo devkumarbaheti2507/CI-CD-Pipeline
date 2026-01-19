@@ -1,4 +1,11 @@
+Goals:-
 
+Builds code automatically
+Tests it automatically
+Deploys it automatically
+Detects failures
+Tries to recover by itself
+Notifies humans only if needed
 
 So the requirements come from these needs.
 
