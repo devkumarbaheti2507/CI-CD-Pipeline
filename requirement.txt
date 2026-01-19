@@ -11,8 +11,7 @@ So the requirements come from these needs.
 
 They are of two types:
 
-1. Functional requirements (what the system must do)
-2. Technology requirements (what tools are needed to do it)
+
 
 
 1. Functional Requirements
