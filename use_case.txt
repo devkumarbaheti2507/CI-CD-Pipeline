@@ -1,0 +1,142 @@
+ CI/CD Pipeline with Automated Failure Recovery
+
+ List of Use Cases with Description
+
+
+1. Commit Code
+
+Actor: Developer
+Description:
+The developer writes or modifies source code and commits it to the version control system (e.g., Git). This action initiates the CI/CD process.
+
+2. Trigger Pipeline
+
+Actor: CI/CD System
+Description:
+Automatically triggers the CI/CD pipeline whenever a new code commit or merge request is detected in the repository.
+
+3. Fetch Source Code
+
+Actor: CI/CD System
+Description:
+Retrieves the latest version of the source code from the repository to begin the build process.
+
+
+4. Build Application
+
+Actor: CI/CD System
+Description:
+Compiles the source code and generates build artifacts (binaries, packages, containers) required for deployment.
+
+
+5. Run Automated Tests
+
+Actor: CI/CD System
+Description:
+Executes automated test cases such as unit tests, integration tests, and regression tests to verify code correctness.
+
+
+
+6. Analyze Test Results
+
+Actor: CI/CD System
+Description:
+Evaluates test execution results to determine whether the application is stable or contains defects.
+
+
+
+7. Deploy Application
+
+Actor: CI/CD System
+Description:
+Deploys the successfully built and tested application to the target environment (staging or production).
+
+8. Monitor Pipeline Execution
+
+Actor: CI/CD System
+Description:
+Continuously monitors each stage of the pipeline (build, test, deploy) to track success or failure.
+
+9. Detect Failure
+
+Actor: CI/CD System
+Description:
+Identifies failures occurring during build, testing, or deployment stages based on logs and error codes.
+
+
+
+10. Analyze Failure
+
+Actor: Automation Recovery Engine
+Description:
+Analyzes the root cause of the detected failure using logs, metrics, and predefined rules.
+
+
+11. Retry Failed Stage
+
+Actor: Automation Recovery Engine
+Description:
+Automatically retries the failed pipeline stage (e.g., build or test) when the failure is temporary or recoverable.
+
+12. Rollback Deployment
+
+Actor: Automation Recovery Engine
+Description:
+Reverts the system to the previously stable application version if deployment fails or causes system instability.
+
+
+
+13. Restore Previous Stable Version
+
+Actor: Automation Recovery Engine
+Description:
+Restores the last known working version of the application to ensure service continuity.
+
+
+
+ 14. Log Failure Details
+
+Actor: CI/CD System
+Description:
+Stores detailed failure information, logs, and timestamps for debugging and auditing purposes.
+
+## 15. Notify Stakeholders
+
+Actor:Notification Service
+Description:
+Sends alerts and notifications to developers and administrators through email, SMS, or collaboration tools.
+
+16. Configure Pipeline
+
+Actor: Admin / DevOps Engineer
+Description:
+Allows configuration of pipeline stages, tools, triggers, and execution rules.
+
+17. Configure Recovery Rules
+
+Actor: Admin / DevOps Engineer
+Description:
+Defines automated recovery actions such as retry limits, rollback conditions, and alert mechanisms.
+
+
+18. View Pipeline Status
+
+Actor: Developer / Admin
+Description:
+Displays real-time status of the pipeline, including success, failure, and recovery actions.
+
+ 19. View Reports and Logs
+
+Actor: Admin / DevOps Engineer
+Description:
+Provides access to historical pipeline reports, logs, and recovery statistics for analysis and improvement.
+
+20. Approve Manual Intervention (Optional)
+
+Actor:Admin / DevOps Engineer
+Description:
+Allows manual approval or intervention in cases where automated recovery is not sufficient.
+
+
+
+
