@@ -1,3 +1,22 @@
+Actor Definition:
+An actor is an external user or system that interacts with the CI/CD pipeline to trigger actions, receive information, or provide inputs. Actors represent roles that use the system but are not part of its internal implementation.
+
+List of External Actors for CI/CD Automated Failure Recovery:
+
 1.Developer
-2.DEvops 
-3. CI/CD tool
+
+2.DevOps Engineer / System Administrator
+
+3.Tester / QA Engineer
+
+4.Version Control System (GitHub/GitLab)
+
+5.Build Tools
+
+6.Testing Tools
+
+7.Deployment Platform (Docker/Kubernetes/Cloud)
+
+8.Notification System (Email/Slack)
+
+9.Monitoring System
