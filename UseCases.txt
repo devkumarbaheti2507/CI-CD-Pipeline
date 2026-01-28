@@ -1,0 +1,69 @@
+1. Commit Source Code
+  Primary Actor: Developer
+  Description:
+    - The developer commits source code changes to the version control system.
+    - This action initiates the CI/CD process.
+
+2. Trigger CI/CD Pipeline
+  Primary Actor: Version Control System
+  Description:
+    - The system automatically triggers the CI/CD pipeline when new code is committed.
+
+  Includes:
+    - Build Application
+    - Run Automated Tests
+    - Deploy Application
+
+3. Build Application
+  Primary Actor: CI/CD Automation Tool
+  Description:
+    - The system compiles the source code and resolves required dependencies.
+
+4. Run Automated Tests
+  Primary Actor: CI/CD Automation Tool
+  Description:
+    - The system executes automated test cases to verify application correctness.
+
+5. Deploy Application
+  Primary Actor: CI/CD Automation Tool
+  Supporting Actor: Deployment Environment
+  Description:
+    - The system deploys the application to the target environment after successful build and testing.
+
+6. Detect Pipeline Failure
+  Primary Actor: CI/CD Automation Tool
+  Description:
+    - The system detects failures occurring during build, test, or deployment stages.
+
+  Includes:
+    - Analyze Pipeline Logs
+    - Classify Failure Type
+
+7. Analyze Pipeline Logs
+  Primary Actor: System
+  Description:
+    - The system collects and analyzes pipeline logs to identify error patterns and causes.
+
+8. Classify Failure Type
+  Primary Actor: System
+  Description:
+    - The system classifies the detected failure into predefined categories such as build failure, test failure, or deployment failure.
+
+9. Execute Recovery Action
+  Primary Actor: System
+  Supporting Actor: Deployment Environment
+  Description:
+    - The system executes predefined recovery actions such as retry, restart, or rollback based on the failure type.
+  
+  Extends:
+    - Detect Pipeline Failure
+
+10. Send Notifications
+  Primary Actor: Notification Service
+  Supporting Actors: Developer, DevOps Engineer
+  Description:
+    - The system sends notifications regarding pipeline status, failures, and recovery actions.
+  
+  Extends:
+    - Trigger CI/CD Pipeline
+    - Execute Recovery Action
