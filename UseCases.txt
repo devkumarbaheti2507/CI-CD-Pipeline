@@ -36,6 +36,7 @@
     - Classify Failure Type
 
 7. Analyze Pipeline Logs
+  Primary Actor: DevOps Engineer
   Description:
     - The CI/CD system collects and analyzes pipeline logs to identify error patterns and root causes.
 
@@ -44,7 +45,7 @@
     - The CI/CD system categorizes failures into predefined types such as build failure, test failure, or deployment failure.
 
 9. Execute Recovery Action
-  Supporting Actor: Deployment Environment
+  Supporting Actor: Deployment Environment, DevOps Engineer
   Description:
     - The CI/CD system executes predefined recovery actions such as retry, restart, or rollback based on the failure type.
   
