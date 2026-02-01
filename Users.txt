@@ -13,7 +13,7 @@ Actors of the System:
 3. Version Control System:
     Store source code
     Trigger CI/CD pipeline on commit or pull request
-4. Deploymeny Environment:
+4. Deployment Environment:
     Host deployed applications
     Support Rollback and recovery actions
 5. Notification Service:
