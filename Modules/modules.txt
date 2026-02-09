@@ -1,0 +1,22 @@
+Project: CI/CD Pipeline Automation with Intelligent Failure Recovery
+
+This file describes the major functional modules of the system.
+
+1. CI/CD Pipeline Module
+- Handles build, test, and deployment processes
+- Triggered automatically on source code commits
+
+2. Log Analysis Module
+- Analyzes pipeline execution logs
+- Detects errors and failure patterns
+
+3. Failure Classification Module
+- Classifies failures into build, test, or deployment failures
+
+4. Recovery Management Module
+- Executes automated recovery actions
+- Supports retry, restart, and rollback operations
+
+5. Notification Module
+- Sends pipeline status and recovery notifications
+- Keeps users informed in real time
