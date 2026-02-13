@@ -1,0 +1,16 @@
+I. A.
+    Our system follows a Layered Architectural Style because it is logically divided into distinct layers with specific responsibilities.
+
+    Layers of our system:
+        a. Presentation / Interface Layer:
+            - Developer Interactions
+            - Notification Outputs
+            - Pipeline status visibility
+        b. Application / Business Logic Layer:
+            - CI/CD Pipeline Controller
+            - Build & Test Manager
+            - Deployment Manager
+            - Failure Detection
+            - Log Analysis
+            - Failure Classification
+            - Recovery Execution
