@@ -1,0 +1,7 @@
+Below are the application components of the system:
+	1. CI/CD Pipeline controller:
+		- Orchestrates entire pipeline
+		- Manages execution flow
+	2. Build Manager:
+		- Compiles source code
+		- Generates build artifacts
