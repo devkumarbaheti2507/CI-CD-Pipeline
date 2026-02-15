@@ -21,3 +21,10 @@ Below are the application components of the system:
 	8. Recovery Manager:
 		- Executes retry or rollback
 		- Restores system state
+	9. Notification Module:
+		- Sends alerts to users
+	10. Data Storage Components:
+		- Code Repository
+		- Build artifacts storage
+		- Pipeline logs storage
+		- Deployment status storage
