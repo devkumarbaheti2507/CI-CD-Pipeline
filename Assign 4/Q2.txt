@@ -5,3 +5,11 @@ Below are the application components of the system:
 	2. Build Manager:
 		- Compiles source code
 		- Generates build artifacts
+	3. Test Manager:
+		- Executes automated tests
+		- Produces test reports
+	4. Deployment Manager:
+		- Deploys application
+		- Tracks deployment status
+	5. Failure Detection Module:
+		- Detects pipeline failures
