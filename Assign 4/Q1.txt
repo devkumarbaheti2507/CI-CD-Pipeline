@@ -1,0 +1,40 @@
+A.
+    Our system follows a Layered Architectural Style because it is logically divided into distinct layers with specific responsibilities.
+
+    Layers of our system:
+        a. Presentation / Interface Layer:
+            - Developer Interactions
+            - Notification Outputs
+            - Pipeline status visibility
+        b. Application / Business Logic Layer:
+            - CI/CD Pipeline Controller
+            - Build & Test Manager
+            - Deployment Manager
+            - Failure Detection
+            - Log Analysis
+            - Failure Classification
+            - Recovery Execution
+        c. Data Layer:
+            - Code Repository
+            - Build Artifacts
+            - Pipeline Logs
+            - Deployment Status
+
+B.
+    We chose the Layered Architecture for our system for the following reasons:
+        1. Scalability:
+            - Individual Layers can be enhanced Independently
+            - Business logic can be extended without modifying data layers
+        2. Maintainability:
+            - Clear separation of concerns
+            - Easier debugging and updates
+            - Modular structure reduces complexity
+        3. Performance:
+            - Structured flow reduces unnecessary dependencies
+            - Efficient processing within defined layers
+        4. Simplicity:
+            - Suitable for academic-scale implementation
+            - Easy to understand and document
+        5. Reliability:
+            - Failure handling logic is isolated in business layer
+            - Improves fault tolerance
