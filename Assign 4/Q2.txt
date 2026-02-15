@@ -13,3 +13,11 @@ Below are the application components of the system:
 		- Tracks deployment status
 	5. Failure Detection Module:
 		- Detects pipeline failures
+	6. Log Analysis Module:
+		- Analyzes logs
+		- Extracts failure information
+	7. Failure Classification Module:
+		- Categorizes failure type
+	8. Recovery Manager:
+		- Executes retry or rollback
+		- Restores system state
