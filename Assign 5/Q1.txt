@@ -1,0 +1,10 @@
+I. Hosting Plan for Application Components
+    - We plan to host the application components using a Cloud-Based Deployment Model.
+    - Proposed Hosting Environment:
+    - Cloud Provider: AWS (or any similar cloud like GCP/Azure)
+    - Compute Server: AWS EC2 (Virtual Machine)
+    - Containerization: Docker
+    - Code Repository: GitHub
+    - CI/CD Automation: GitHub Actions / Jenkins
+    - Log Storage: Cloud storage or server-based log directory
+    - Deployment Target: Docker container running on EC2
