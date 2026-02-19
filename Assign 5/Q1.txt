@@ -8,3 +8,17 @@ I. Hosting Plan for Application Components
     - CI/CD Automation: GitHub Actions / Jenkins
     - Log Storage: Cloud storage or server-based log directory
     - Deployment Target: Docker container running on EC2
+
+    # Component wise hosting plan:
+         ___________________________________________________________________
+        | Component                       | Hosting Location                |
+        |---------------------------------|---------------------------------|
+        | CI/CD Pipeline Controller       | EC2 Server                      |
+        | Build & Test Module             | Docker Container on EC2         |
+        | Log Analyzer                    | Same EC2 Instance               |
+        | Failure Classifier              | Same EC2 Instance               |
+        | Recovery Manager                | Same EC2 Instance               |
+        | Notification Module             | Cloud-based Email API           |
+        | Code Repository                 | GitHub                          |
+        | Deployment Environment          | Docker Container                |
+        |___________________________________________________________________|
