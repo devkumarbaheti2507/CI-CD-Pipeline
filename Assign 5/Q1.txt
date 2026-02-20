@@ -22,3 +22,34 @@ I. Hosting Plan for Application Components
         | Code Repository                 | GitHub                          |
         | Deployment Environment          | Docker Container                |
         |___________________________________________________________________|
+
+II. Deployment Strategy
+    The deployment strategy follows these steps:
+        Step 1: Server Configuration
+            Launch EC2 instance
+            Install:
+                Docker
+                Python runtime
+                Git
+                Jenkins (optional)
+            Configure firewall rules (allow HTTP/HTTPS only)
+        Step 2: Containerization
+            Create Dockerfile
+            Package:
+                CI/CD controller
+                Log Analyzer
+                Recovery Manager
+            Build Docker image
+            Push image to Docker registry
+        Step 3: CI/CD Setup
+            Connect GitHub repository to CI/CD tool
+            Configure pipeline:
+                Build → Test → Deploy → Log Analysis → Recovery
+        Step 4: API Communication
+            Internal components communicate via:
+                Function calls (within same container)
+                REST APIs (if separated later)
+            Notification module uses email API for alerts
+        Step 5: Monitoring & Logs
+            Store logs in server directory
+            Recovery module reads logs for failure analysis
