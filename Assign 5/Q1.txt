@@ -53,3 +53,10 @@ II. Deployment Strategy
         Step 5: Monitoring & Logs
             Store logs in server directory
             Recovery module reads logs for failure analysis
+
+III. Security Measures
+    - Use HTTPS for communication
+    - Configure firewall to allow only required ports
+    - Store secrets using environment variables
+    - Use role-based access for CI/CD tool
+    - Enable secure SSH access
