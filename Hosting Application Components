@@ -1,0 +1,78 @@
+Components (from Assignment 4)
+
+CI/CD project consists of these components:
+
+1. Pipeline Orchestrator (e.g., Jenkins / GitHub Actions runner)
+2. Source Code Repository (e.g., GitHub / GitLab)
+3. Build Server
+4. Artifact Registry (stores build artifacts/Docker images)
+5. Test Automation Server
+6. Deployment Server (targets staging & production)
+7. Monitoring & Failure Recovery Module
+8. Notification Service (e.g., email/Slack alerts)
+
+
+ Host Site
+
+| Component | Hosting Platform |
+
+| Pipeline Orchestrator (Jenkins) | AWS EC2 (t2.medium, Ubuntu 22.04) |
+| Source Code Repository | GitHub (cloud-hosted, free/pro tier) |
+| Build Server | AWS EC2 (t2.large) or GitHub Actions runner |
+| Artifact Registry | Docker Hub / AWS ECR |
+| Test Automation Server | AWS EC2 (t2.medium) |
+| Deployment Server (Staging & Prod) | AWS EC2 separate instances |
+| Monitoring & Recovery Module | AWS CloudWatch + custom Python service on EC2 |
+| Notification Service | AWS SNS / Slack Webhook (fully managed, no dedicated server needed) |
+
+Deployment Strategy
+
+Step 1 – Server Provisioning
+Launch EC2 instances on AWS (Ubuntu 22.04 LTS) for each component listed above.
+Assign appropriate instance types based on load (build server gets higher CPU/RAM).
+Attach Elastic IPs to Jenkins and Deployment servers for stable addressing.
+
+Step 2 – Environment Configuration
+- Install required packages on each server:
+  - Jenkins server: Java JDK 17, Jenkins LTS, Git, Docker
+  - Build server: Docker, Maven/Gradle, Node.js (based on project stack)
+  - Test server: Selenium, JUnit, pytest (as applicable)
+  - Deployment server: Docker, kubectl (if using Kubernetes), AWS CLI
+- Configure environment variables (`.env` files or AWS Parameter Store) for credentials and config values.
+
+Step 3 – Pipeline Orchestrator Setup
+- Install and configure Jenkins with required plugins:
+  - Git Plugin, Docker Pipeline, SSH Agent, Slack Notification Plugin
+- Create a `Jenkinsfile` in the repository defining pipeline stages: `Build → Test → Artifact Push → Deploy → Monitor`
+- Configure webhooks on GitHub to trigger Jenkins on every push/PR.
+
+Step 4 – API & Inter-Component Communication Configuration
+- Jenkins ↔ GitHub: GitHub webhook sends POST requests to `http://<jenkins-ip>:8080/github-webhook/` on code push.
+- Jenkins ↔ Build Server: Jenkins master connects to build agent via SSH (port 22) using agent node configuration.
+- Build Server ↔ Artifact Registry: Docker CLI authenticated via `docker login` pushes images to Docker Hub / AWS ECR using stored credentials.
+- Jenkins ↔ Deployment Server: SSH-based deployment scripts triggered from Jenkins pipeline; uses `scp` or Ansible playbooks to deploy containers.
+- Monitoring Module ↔ Deployment Server**: Monitoring script polls application health endpoint (`/health` REST API) every 30 seconds; triggers re-deployment script on failure detection.
+- Monitoring Module ↔ Notification Service**: On failure, sends POST request to Slack Webhook URL or publishes to AWS SNS topic, which emails stakeholders.
+
+Step 5 – Automated Failure Recovery Setup**
+- Write a recovery script (`recover.sh`) that:
+  - Detects failed container/service via health-check API
+  - Automatically restarts the container: `docker restart <container_name>`
+  - If restart fails 3 times, rolls back to the last stable Docker image tag from the artifact registry
+- Schedule this script as a cron job or integrate it as a Jenkins post-build monitoring stage.
+
+Step 6 – Testing the Pipeline End-to-End
+- Push a dummy commit to GitHub → verify webhook triggers Jenkins build → confirm artifact pushed to registry → confirm deployment to staging server → simulate a failure and confirm auto-recovery + notification is triggered.
+
+---
+
+ Security Measures
+
+- SSH Key Authentication: All server-to-server communication (Jenkins → Build, Jenkins → Deploy) uses SSH key pairs; password authentication is disabled.
+- Firewall (AWS Security Groups):
+  - Jenkins server: Allow inbound on port 8080 (HTTP) and 22 (SSH) from known IPs only.
+  - Deployment server: Allow traffic only from Jenkins server IP.
+  - All other inbound traffic is denied by default.
+- Secrets Management: API keys, Docker credentials, and SSH keys are stored in Jenkins Credentials Manager (encrypted at rest) — never hard-coded in the `Jenkinsfile`.
+- HTTPS: Jenkins dashboard is served over HTTPS using a self-signed certificate or Let's Encrypt SSL certificate via Nginx reverse proxy.
+- IAM Roles (AWS): EC2 instances accessing AWS ECR or SNS are assigned IAM roles with least-privilege permissions instead of using root credentials.
