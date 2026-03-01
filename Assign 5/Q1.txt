@@ -2,7 +2,7 @@ I. Hosting Plan for Application Components
     - The application components will be hosted using a Cloud-Based Deployment Model.
     - The system will be deployed on a scalable and containerized cloud environment.
     - Proposed Hosting Environment:
-        - Cloud Provider: AWS (or any similar cloud like GCP/Azure)
+        - Cloud Provider: AWS
         - Compute Server: AWS EC2 (Virtual Machine)
         - Containerization: Docker
         - Code Repository: GitHub
@@ -11,18 +11,15 @@ I. Hosting Plan for Application Components
         - Deployment Target: Docker container running on EC2
 
     # Component wise hosting plan:
-         ___________________________________________________________________
-        | Component                       | Hosting Location                |
-        |---------------------------------|---------------------------------|
-        | CI/CD Pipeline Controller       | EC2 Server                      |
-        | Build & Test Module             | Docker Container on EC2         |
-        | Log Analyzer                    | Same EC2 Instance               |
-        | Failure Classifier              | Same EC2 Instance               |
-        | Recovery Manager                | Same EC2 Instance               |
-        | Notification Module             | Cloud-based Email API           |
-        | Code Repository                 | GitHub                          |
-        | Deployment Environment          | Docker Container                |
-        |___________________________________________________________________|
+        Component - Hosting Location
+        CI/CD Pipeline Controller - EC2 Server
+        Build & Test Module - Docker Container on EC2
+        Log Analyzer - Same EC2 Instance
+        Failure Classifier - Same EC2 Instance
+        Recovery Manager - Same EC2 Instance
+        Notification Module - Cloud-based Email API
+        Code Repository - GitHub
+        Deployment Environment - Docker Container
 
 II. Deployment Strategy
     The deployment strategy follows these steps:
@@ -32,7 +29,6 @@ II. Deployment Strategy
                 Docker
                 Python runtime
                 Git
-                Jenkins (optional)
             Configure firewall rules (allow HTTP/HTTPS only)
         Step 2: Containerization
             Create Dockerfile
@@ -45,11 +41,11 @@ II. Deployment Strategy
         Step 3: CI/CD Setup
             Connect GitHub repository to CI/CD tool
             Configure pipeline:
-                Build → Test → Deploy → Log Analysis → Recovery
+                Build -> Test -> Deploy -> Log Analysis -> Recovery
         Step 4: API Communication
             Internal components communicate via:
-                Function calls (within same container)
-                REST APIs (if separated later)
+                Function calls
+                REST APIs
             Notification module uses email API for alerts
         Step 5: Monitoring & Logs
             Store logs in server directory
