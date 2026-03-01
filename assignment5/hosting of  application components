@@ -1,78 +1,204 @@
-Components (from Assignment 4)
+ I. Hosting Plan for Application Components
 
-CI/CD project consists of these components:
+The application components will be hosted using a cloud-based and containerized deployment model to ensure scalability, reliability, and fault tolerance.
 
-1. Pipeline Orchestrator (e.g., Jenkins / GitHub Actions runner)
-2. Source Code Repository (e.g., GitHub / GitLab)
-3. Build Server
-4. Artifact Registry (stores build artifacts/Docker images)
-5. Test Automation Server
-6. Deployment Server (targets staging & production)
-7. Monitoring & Failure Recovery Module
-8. Notification Service (e.g., email/Slack alerts)
+ Proposed Hosting Environment
 
+Cloud Provider: Amazon Web Services
 
- Host Site
+Compute Server: Amazon EC2 Virtual Machine
 
-| Component | Hosting Platform |
+Containerization: Docker
 
-| Pipeline Orchestrator (Jenkins) | AWS EC2 (t2.medium, Ubuntu 22.04) |
-| Source Code Repository | GitHub (cloud-hosted, free/pro tier) |
-| Build Server | AWS EC2 (t2.large) or GitHub Actions runner |
-| Artifact Registry | Docker Hub / AWS ECR |
-| Test Automation Server | AWS EC2 (t2.medium) |
-| Deployment Server (Staging & Prod) | AWS EC2 separate instances |
-| Monitoring & Recovery Module | AWS CloudWatch + custom Python service on EC2 |
-| Notification Service | AWS SNS / Slack Webhook (fully managed, no dedicated server needed) |
+Code Repository: GitHub
 
-Deployment Strategy
+CI/CD Automation: GitHub Actions or Jenkins
 
-Step 1 – Server Provisioning
-Launch EC2 instances on AWS (Ubuntu 22.04 LTS) for each component listed above.
-Assign appropriate instance types based on load (build server gets higher CPU/RAM).
-Attach Elastic IPs to Jenkins and Deployment servers for stable addressing.
+Log Storage: Cloud storage or server-based log directory
 
-Step 2 – Environment Configuration
-- Install required packages on each server:
-  - Jenkins server: Java JDK 17, Jenkins LTS, Git, Docker
-  - Build server: Docker, Maven/Gradle, Node.js (based on project stack)
-  - Test server: Selenium, JUnit, pytest (as applicable)
-  - Deployment server: Docker, kubectl (if using Kubernetes), AWS CLI
-- Configure environment variables (`.env` files or AWS Parameter Store) for credentials and config values.
+Deployment Target: Docker containers running on EC2
 
-Step 3 – Pipeline Orchestrator Setup
-- Install and configure Jenkins with required plugins:
-  - Git Plugin, Docker Pipeline, SSH Agent, Slack Notification Plugin
-- Create a `Jenkinsfile` in the repository defining pipeline stages: `Build → Test → Artifact Push → Deploy → Monitor`
-- Configure webhooks on GitHub to trigger Jenkins on every push/PR.
+ Component-wise Hosting Plan
+Component	Hosting Location
+CI/CD Pipeline Controller	EC2 Server
+Build & Test Module	Docker Container on EC2
+Log Analyzer	Docker Container on EC2
+Failure Classifier	Same EC2 Instance
+Recovery Manager	Same EC2 Instance
+Notification Module	Cloud-based Email API
+Code Repository	GitHub
+Deployment Environment	Docker Containers
 
-Step 4 – API & Inter-Component Communication Configuration
-- Jenkins ↔ GitHub: GitHub webhook sends POST requests to `http://<jenkins-ip>:8080/github-webhook/` on code push.
-- Jenkins ↔ Build Server: Jenkins master connects to build agent via SSH (port 22) using agent node configuration.
-- Build Server ↔ Artifact Registry: Docker CLI authenticated via `docker login` pushes images to Docker Hub / AWS ECR using stored credentials.
-- Jenkins ↔ Deployment Server: SSH-based deployment scripts triggered from Jenkins pipeline; uses `scp` or Ansible playbooks to deploy containers.
-- Monitoring Module ↔ Deployment Server**: Monitoring script polls application health endpoint (`/health` REST API) every 30 seconds; triggers re-deployment script on failure detection.
-- Monitoring Module ↔ Notification Service**: On failure, sends POST request to Slack Webhook URL or publishes to AWS SNS topic, which emails stakeholders.
+This architecture ensures:
 
-Step 5 – Automated Failure Recovery Setup**
-- Write a recovery script (`recover.sh`) that:
-  - Detects failed container/service via health-check API
-  - Automatically restarts the container: `docker restart <container_name>`
-  - If restart fails 3 times, rolls back to the last stable Docker image tag from the artifact registry
-- Schedule this script as a cron job or integrate it as a Jenkins post-build monitoring stage.
+Easy scaling
 
-Step 6 – Testing the Pipeline End-to-End
-- Push a dummy commit to GitHub → verify webhook triggers Jenkins build → confirm artifact pushed to registry → confirm deployment to staging server → simulate a failure and confirm auto-recovery + notification is triggered.
+Isolation
 
----
+High availability
 
- Security Measures
+ II. Deployment Strategy
 
-- SSH Key Authentication: All server-to-server communication (Jenkins → Build, Jenkins → Deploy) uses SSH key pairs; password authentication is disabled.
-- Firewall (AWS Security Groups):
-  - Jenkins server: Allow inbound on port 8080 (HTTP) and 22 (SSH) from known IPs only.
-  - Deployment server: Allow traffic only from Jenkins server IP.
-  - All other inbound traffic is denied by default.
-- Secrets Management: API keys, Docker credentials, and SSH keys are stored in Jenkins Credentials Manager (encrypted at rest) — never hard-coded in the `Jenkinsfile`.
-- HTTPS: Jenkins dashboard is served over HTTPS using a self-signed certificate or Let's Encrypt SSL certificate via Nginx reverse proxy.
-- IAM Roles (AWS): EC2 instances accessing AWS ECR or SNS are assigned IAM roles with least-privilege permissions instead of using root credentials.
+The deployment strategy includes automated configuration, containerization, and secure communication.
+
+Step 1: Server Configuration
+
+Launch an EC2 instance in AWS.
+
+Install required tools:
+
+Docker
+
+Python runtime
+
+Git
+
+Configure firewall (Security Groups):
+
+Allow only HTTP (80) and HTTPS (443).
+
+Restrict SSH access to authorized IPs.
+
+This ensures a secure and controlled environment.
+
+ Step 2: Containerization
+
+Create Dockerfiles for all application modules.
+
+Package the following components:
+
+CI/CD controller
+
+Log Analyzer
+
+Recovery Manager
+
+Build Docker images.
+
+Push images to Docker registry (e.g., Docker Hub).
+
+Run containers on the EC2 server.
+
+This ensures:
+
+Consistent environment
+
+Faster deployment
+
+Easy scalability
+
+ Step 3: CI/CD Setup
+
+Connect the GitHub repository to the CI/CD tool.
+
+Configure automated pipeline:
+
+Build → Test → Deploy → Log Analysis → Recovery.
+
+The pipeline automatically triggers when new code is pushed.
+
+This improves:
+
+Automation
+
+Continuous delivery
+
+Reliability
+
+ Step 4: API Configuration and Communication (Important)
+
+To enable communication between different system components, RESTful APIs will be configured.
+
+ API Communication Plan:
+
+Each module exposes REST APIs using HTTP/HTTPS.
+
+JSON is used as the data exchange format.
+
+Internal communication occurs between backend components.
+
+External communication includes frontend and notification services.
+
+ Example Communication Flow:
+
+The frontend sends a request to the backend API to start the pipeline:
+
+POST /start-pipeline
+
+The backend runs the build and test stages.
+
+If a failure occurs, the backend sends logs to the log analyzer:
+
+POST /analyze
+
+The log analyzer processes the logs and returns the failure type.
+
+The recovery module takes appropriate action.
+
+The notification module sends alerts using an email API.
+
+ API Configuration Details:
+
+Define API endpoints and routes for each component.
+
+Configure URLs and ports for services.
+
+Use environment variables to store service URLs.
+
+Enable Cross-Origin Resource Sharing (CORS) for frontend-backend interaction.
+
+Secure APIs using authentication tokens or API keys.
+
+Use HTTPS for encrypted communication.
+
+This ensures:
+
+Seamless integration
+
+Modular architecture
+
+Microservices-based communication
+
+Scalability and flexibility
+
+ Step 5: Monitoring and Logging
+
+Logs are stored in the server directory or cloud storage.
+
+The recovery system continuously monitors logs.
+
+Alerts are generated for failures.
+
+This improves:
+
+Observability
+
+System reliability
+
+ III. Security Measures
+
+To ensure system security and data protection, the following measures will be applied:
+
+Use HTTPS encryption for all API communication.
+
+Configure firewalls and AWS security groups.
+
+Allow only required ports.
+
+Use secure SSH with key-based authentication.
+
+Store sensitive credentials in environment variables.
+
+Implement role-based access control in the CI/CD tool.
+
+Apply authentication and authorization for APIs.
+
+Enable logging and monitoring for suspicious activities.
+
+These measures ensure:
+
+Confidentiality
+
+Integrity
+
+Availability
