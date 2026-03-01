@@ -1,0 +1,28 @@
+Project: CI/CD Pipeline Automation with Intelligent Failure Recovery
+
+This file describes the high-level architecture of the system.
+
+The system follows an event-driven architecture where a source code
+commit triggers the CI/CD pipeline automatically.
+
+Main Components:
+1. Version Control System
+   - Stores source code
+   - Triggers pipeline execution on commits
+
+2. CI/CD Pipeline Controller
+   - Orchestrates build, test, and deployment stages
+   - Manages pipeline execution flow
+
+3. Log Analysis Module
+   - Collects and analyzes pipeline logs
+   - Detects and classifies failures
+
+4. Recovery Management Module
+   - Executes recovery actions such as retry, restart, or rollback
+
+5. Notification Module
+   - Sends pipeline status and recovery alerts to users
+
+This modular architecture ensures scalability, maintainability,
+and reliable software delivery.

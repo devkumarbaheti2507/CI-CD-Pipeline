@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Actors of the System:
 
 # Primary Actors
@@ -19,3 +20,27 @@ Actors of the System:
 5. Notification Service:
     Send notification for pipeline success
     Send alerts for failures and recovery actions
+=======
+Users of the System:
+
+1. Developers:
+    Committing the source code
+    Receive notificationa about their builds
+2. DevOps Engineer:
+    Configure CI/CD Pipeline and Analyze pipeline logs
+    Define recovery strategies from failures and deployment rules
+3. Version Control System:
+    Store source code
+    Trigger CI/CD Pipeline
+4. CI/CD Automation Tool:
+    Build Application
+    Run Automated Tests
+    Deploy Application
+    Detect Pipeline Failures
+5. Deploymeny Environment:
+    Host deployed applications
+    Support Rollback and recovery actions
+6. Notification Service:
+    Send notification for pipeline success
+    Send alerts for failures and recovery actions
+>>>>>>> 01e5cd6e096d4e861666424e488606ee6ff9fac8
