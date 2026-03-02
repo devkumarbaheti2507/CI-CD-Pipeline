@@ -1,0 +1,59 @@
+I. Hosting Plan for Application Components
+    - The application components will be hosted using a Cloud-Based Deployment Model.
+    - The system will be deployed on a scalable and containerized cloud environment.
+    - Proposed Hosting Environment:
+        - Cloud Provider: AWS
+        - Compute Server: AWS EC2 (Virtual Machine)
+        - Containerization: Docker
+        - Code Repository: GitHub
+        - CI/CD Automation: GitHub Actions / Jenkins
+        - Log Storage: Cloud storage or server-based log directory
+        - Deployment Target: Docker container running on EC2
+
+    # Component wise hosting plan:
+        Component - Hosting Location
+        CI/CD Pipeline Controller - EC2 Server
+        Build & Test Module - Docker Container on EC2
+        Log Analyzer - Same EC2 Instance
+        Failure Classifier - Same EC2 Instance
+        Recovery Manager - Same EC2 Instance
+        Notification Module - Cloud-based Email API
+        Code Repository - GitHub
+        Deployment Environment - Docker Container
+
+II. Deployment Strategy
+    The deployment strategy follows these steps:
+        Step 1: Server Configuration
+            Launch EC2 instance
+            Install:
+                Docker
+                Python runtime
+                Git
+            Configure firewall rules (allow HTTP/HTTPS only)
+        Step 2: Containerization
+            Create Dockerfile
+            Package:
+                CI/CD controller
+                Log Analyzer
+                Recovery Manager
+            Build Docker image
+            Push image to Docker registry
+        Step 3: CI/CD Setup
+            Connect GitHub repository to CI/CD tool
+            Configure pipeline:
+                Build -> Test -> Deploy -> Log Analysis -> Recovery
+        Step 4: API Communication
+            Internal components communicate via:
+                Function calls
+                REST APIs
+            Notification module uses email API for alerts
+        Step 5: Monitoring & Logs
+            Store logs in server directory
+            Recovery module reads logs for failure analysis
+
+III. Security Measures
+    - Use HTTPS for communication
+    - Configure firewall to allow only required ports
+    - Store secrets using environment variables
+    - Use role-based access for CI/CD tool
+    - Enable secure SSH access
