@@ -1,59 +1,134 @@
 I. Hosting Plan for Application Components
-    - The application components will be hosted using a Cloud-Based Deployment Model.
-    - The system will be deployed on a scalable and containerized cloud environment.
-    - Proposed Hosting Environment:
-        - Cloud Provider: AWS
-        - Compute Server: AWS EC2 (Virtual Machine)
-        - Containerization: Docker
-        - Code Repository: GitHub
-        - CI/CD Automation: GitHub Actions / Jenkins
-        - Log Storage: Cloud storage or server-based log directory
-        - Deployment Target: Docker container running on EC2
 
-    # Component wise hosting plan:
-        Component - Hosting Location
-        CI/CD Pipeline Controller - EC2 Server
-        Build & Test Module - Docker Container on EC2
-        Log Analyzer - Same EC2 Instance
-        Failure Classifier - Same EC2 Instance
-        Recovery Manager - Same EC2 Instance
-        Notification Module - Cloud-based Email API
-        Code Repository - GitHub
-        Deployment Environment - Docker Container
+The application components will be hosted using a Cloud-Based Deployment Model. The system will be deployed on a scalable and containerized cloud environment to ensure reliability, maintainability, and ease of deployment.
 
-II. Deployment Strategy
-    The deployment strategy follows these steps:
-        Step 1: Server Configuration
-            Launch EC2 instance
-            Install:
-                Docker
-                Python runtime
-                Git
-            Configure firewall rules (allow HTTP/HTTPS only)
-        Step 2: Containerization
-            Create Dockerfile
-            Package:
-                CI/CD controller
-                Log Analyzer
-                Recovery Manager
-            Build Docker image
-            Push image to Docker registry
-        Step 3: CI/CD Setup
-            Connect GitHub repository to CI/CD tool
-            Configure pipeline:
-                Build -> Test -> Deploy -> Log Analysis -> Recovery
-        Step 4: API Communication
-            Internal components communicate via:
-                Function calls
-                REST APIs
-            Notification module uses email API for alerts
-        Step 5: Monitoring & Logs
-            Store logs in server directory
-            Recovery module reads logs for failure analysis
+ Proposed Hosting Environment
+
+Cloud Provider: AWS
+Compute Server: AWS EC2 (Virtual Machine)
+Containerization: Docker
+Code Repository: GitHub
+CI/CD Automation: GitHub Actions / Jenkins
+Log Storage: Cloud storage or server-based log directory
+Deployment Target:** Docker container running on EC2
+
+ Component-wise Hosting Plan
+
+| Component                 | Hosting Location        |
+| ------------------------- | ----------------------- |
+| CI/CD Pipeline Controller | EC2 Server              |
+| Build & Test Module       | Docker Container on EC2 |
+| Log Analyzer              | Same EC2 Instance       |
+| Failure Classifier        | Same EC2 Instance       |
+| Recovery Manager          | Same EC2 Instance       |
+| Notification Module       | Cloud-based Email API   |
+| Code Repository           | GitHub                  |
+| Deployment Environment    | Docker Container        |
+
+
+
+ II. Deployment Strategy
+
+The deployment strategy follows the steps below to ensure proper system configuration, component communication, and automated execution.
+
+ Step 1: Server Configuration
+
+1. Launch an AWS EC2 instance with the required OS (Ubuntu/Linux).
+2. Install necessary dependencies:
+
+    Docker
+    Python Runtime
+    Git
+3. Configure system packages and environment variables.
+4. Configure firewall rules using AWS Security Groups to allow only required ports such as:
+
+   Port 22 (SSH)
+   Port 80 (HTTP)
+   Port 443 (HTTPS)
+
+
+Step 2: Containerization
+
+1. Create a Dockerfile for packaging the application.
+2. Bundle the following modules inside the container:
+
+   CI/CD Controller
+   Log Analyzer
+   Failure Classifier
+   Recovery Manager
+3. Build a Docker image using the Dockerfile.
+4. Push the image to a Docker registry (DockerHub or AWS ECR).
+5. Deploy the Docker container on the EC2 instance.
+
+
+
+Step 3: CI/CD Setup
+
+1. Connect the GitHub repository with the CI/CD automation tool (GitHub Actions / Jenkins).
+2. Configure automated pipelines triggered on code commits.
+3. The pipeline stages include:
+
+    Build: Compile and package application.
+    Test: Execute automated tests.
+    Deploy: Deploy updated Docker container.
+    Log Analysis: Analyze build/test logs.
+    Recovery: Trigger recovery actions if failure occurs.
+
+Step 4: API Communication Between Components
+
+To enable communication between different components of the system, **RESTful APIs** will be implemented.
+
+1. CI/CD Controller APIs
+
+   Exposes endpoints to trigger build, test, and deployment processes.
+   Other modules interact with this controller through API requests.
+
+2. Log Analyzer API
+
+   Receives log data from the CI/CD pipeline after build or test execution.
+   Processes logs and returns failure patterns.
+
+3. Failure Classifier API
+
+   Accepts processed logs from the Log Analyzer.
+   Classifies the type of failure (e.g., dependency error, syntax error, timeout).
+   Sends classification results to the Recovery Manager.
+
+4. Recovery Manager API
+
+   Receives failure classification data.
+   Executes predefined recovery actions such as restarting services or retrying builds.
+
+5. Notification Module Integration
+
+   Uses an external Email API to send notifications to developers.
+   Alerts are triggered when failures occur or recovery actions are executed.
+
+6. Internal Communication
+
+    APIs will run on local service ports inside Docker containers.
+    Components communicate using HTTP REST endpoints and JSON data exchange.
+    Example flow:
+
+   
+   CI/CD Pipeline → Log Analyzer API
+   Log Analyzer → Failure Classifier API
+   Failure Classifier → Recovery Manager API
+   Recovery Manager → Notification Module
+   
+
+This API-based architecture ensures loose coupling, scalability, and modular communication between system components.
+
 
 III. Security Measures
-    - Use HTTPS for communication
-    - Configure firewall to allow only required ports
-    - Store secrets using environment variables
-    - Use role-based access for CI/CD tool
-    - Enable secure SSH access
+
+To ensure secure deployment and communication, the following security mechanisms will be implemented:
+
+HTTPS encryption for secure data transmission.
+Firewall configuration to allow only required ports.
+Environment variables for storing sensitive credentials such as API keys.
+Role-Based Access Control (RBAC) for CI/CD tools.
+Secure SSH authentication for server access.
+Regular monitoring and logging to detect unauthorized activities.
+
+
