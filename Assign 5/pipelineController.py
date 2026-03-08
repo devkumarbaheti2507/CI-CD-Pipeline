@@ -1,32 +1,3 @@
-"""
-Pipeline Controller Service — Final Corrected Version
-======================================================
-
-All issues from code review resolved:
-  1.  async-timeout declared in requirements.txt (Python < 3.11 safe)
-  2.  HTTPS log URLs: custom SSL context validates cert against original
-      hostname while connecting to resolved IP (no SSLCertVerificationError)
-  3.  asyncio.gather results normalised — exception objects never leak to JSON
-  4.  SSRF pre-flight check at request time (not only in background task)
-  5.  hset replaced with delete+hset pipeline — no stale fields
-  6.  404 message distinguishes "never existed" from "expired"
-  7.  Internal Jenkins container URL conflict documented; allowlist supported
-  8.  Rate limiting on /pipeline-event (Redis-backed, 100 req/min per IP)
-
-Environment variables
----------------------
-  REDIS_URL                   redis://localhost:6379
-  LOG_ANALYZER_URL            http://log-analyzer:5001/analyze
-  LOG_ANALYZER_HEALTH_URL     http://log-analyzer:5001/health
-  RECOVERY_SERVICE_URL        http://recovery-manager:6000/recover
-  NOTIFICATION_SERVICE_URL    http://notification-service:7000/notify
-  STATUS_API_KEY              (optional) API key for /pipeline-status
-  ALLOWED_LOG_HOSTS           (optional) comma-separated hostnames that are
-                              exempt from private-IP SSRF check, e.g.:
-                              "jenkins,jenkins.internal,ci.corp.local"
-  RATE_LIMIT_PER_MINUTE       max requests per IP per minute (default: 100)
-"""
-
 import os
 import ssl
 import uuid
@@ -47,19 +18,12 @@ from fastapi import FastAPI, HTTPException, BackgroundTasks, Header, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, HttpUrl, Field, StringConstraints
 
-# ============================================================
-# PYTHON VERSION-SAFE TIMEOUT
-# ============================================================
 
 try:
-    from asyncio import timeout as async_timeout          # Python 3.11+
+    from asyncio import timeout as async_timeout          
 except ImportError:
-    from async_timeout import timeout as async_timeout    # async-timeout package
+    from async_timeout import timeout as async_timeout   
 
-
-# ============================================================
-# CONFIGURATION
-# ============================================================
 
 APP_VERSION = "1.0.0"
 
@@ -84,10 +48,6 @@ ALLOWED_LOG_HOSTS: set[str] = {
 }
 
 
-# ============================================================
-# STRUCTURED LOGGING WITH REQUEST-ID
-# ============================================================
-
 request_id_ctx: contextvars.ContextVar[str] = contextvars.ContextVar(
     "request_id", default="-"
 )
@@ -107,10 +67,6 @@ logger = logging.getLogger("pipeline-controller")
 logger.addFilter(RequestIdFilter())
 
 
-# ============================================================
-# DOMAIN EXCEPTIONS
-# ============================================================
-
 class UnsafeURLError(ValueError):
     """Raised when a URL resolves to a private / loopback / reserved IP."""
 
@@ -125,9 +81,7 @@ class RateLimitError(Exception):
     """Raised when a client exceeds the per-minute request limit."""
 
 
-# ============================================================
-# PYDANTIC MODELS
-# ============================================================
+
 
 class PipelineStatus(str, Enum):
     SUCCESS = "SUCCESS"
@@ -151,10 +105,6 @@ class PipelineResponse(BaseModel):
     status:       str
     submitted_at: str
 
-
-# ============================================================
-# LIFESPAN — STARTUP / SHUTDOWN
-# ============================================================
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -185,10 +135,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-
-# ============================================================
-# SSRF PROTECTION  (fix #2 + #4 + #7)
-# ============================================================
 
 async def resolve_host(host: str) -> str:
     """
@@ -236,9 +182,6 @@ async def resolve_host(host: str) -> str:
     return valid_ips[0]
 
 
-# ============================================================
-# HTTP RETRY UTILITY
-# ============================================================
 
 async def http_request(
     method: str,
@@ -276,9 +219,6 @@ async def http_request(
     raise last_exc
 
 
-# ============================================================
-# LOG STREAMING  (fix #2 — HTTPS + raw IP TLS)
-# ============================================================
 
 def _build_ssl_context(hostname: str) -> ssl.SSLContext:
     """
@@ -346,9 +286,7 @@ async def fetch_logs(url: str) -> str:
     return b"".join(chunks).decode(errors="ignore")
 
 
-# ============================================================
-# REDIS JOB STATE  (fix #5 — delete+hset, no stale fields)
-# ============================================================
+
 
 async def set_job_status(
     redis_client,
@@ -396,9 +334,6 @@ async def safe_set_status(
         )
 
 
-# ============================================================
-# RATE LIMITING  (fix #8)
-# ============================================================
 
 async def enforce_rate_limit(redis_client, client_ip: str) -> None:
     """
@@ -416,9 +351,7 @@ async def enforce_rate_limit(redis_client, client_ip: str) -> None:
         )
 
 
-# ============================================================
-# PIPELINE PROCESSING
-# ============================================================
+
 
 async def _process_pipeline_inner(job_id: str, event: PipelineEvent) -> None:
     redis_client = app.state.redis
@@ -501,9 +434,6 @@ async def process_pipeline(
         await safe_set_status(redis_client, job_id, "internal_error", str(exc))
 
 
-# ============================================================
-# PIPELINE EVENT ENDPOINT
-# ============================================================
 
 @app.post("/pipeline-event", response_model=PipelineResponse, status_code=202)
 async def pipeline_event(
@@ -570,9 +500,6 @@ async def pipeline_event(
     )
 
 
-# ============================================================
-# JOB STATUS ENDPOINT
-# ============================================================
 
 UUID_RE  = re.compile(
     r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
@@ -606,9 +533,7 @@ async def pipeline_status(
     return data
 
 
-# ============================================================
-# HEALTH CHECK
-# ============================================================
+
 
 async def check_service(url: str) -> bool:
     """Probe a downstream service health endpoint."""
