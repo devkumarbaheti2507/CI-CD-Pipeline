@@ -544,48 +544,6 @@ async def check_service(url: str) -> bool:
         return False
 
 
-@app.get("/health")
-async def health() -> JSONResponse:
-    redis_ok = False
-    try:
-        redis_ok = await app.state.redis.ping()
-    except Exception:
-        pass
-
-    # Run all service checks concurrently (fix from v7)
-    raw_results = await asyncio.gather(
-        check_service(LOG_ANALYZER_HEALTH_URL),
-        check_service(RECOVERY_SERVICE_URL),
-        check_service(NOTIFICATION_SERVICE_URL),
-        return_exceptions=True,
-    )
-
-    # fix #3 — normalise exception objects to False so JSON never breaks
-    analyzer_ok, recovery_ok, notify_ok = [
-        r if isinstance(r, bool) else False
-        for r in raw_results
-    ]
-
-    # Service is healthy only if Redis and Log Analyzer are reachable
-    # (Recovery and Notification degraded but not blocking)
-    healthy = bool(redis_ok and analyzer_ok)
-
-    return JSONResponse(
-        status_code=200 if healthy else 503,
-        content={
-            "service": "pipeline-controller",
-            "version": APP_VERSION,
-            "status":  "ok" if healthy else "degraded",
-            "dependencies": {
-                "redis":        redis_ok,
-                "log_analyzer": analyzer_ok,
-                "recovery":     recovery_ok,
-                "notification": notify_ok,
-            },
-            "time": datetime.now(timezone.utc).isoformat(),
-        },
-    )
-
 
 
 
