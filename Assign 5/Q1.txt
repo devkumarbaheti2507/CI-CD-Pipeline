@@ -130,5 +130,3 @@ Environment variables for storing sensitive credentials such as API keys.
 Role-Based Access Control (RBAC) for CI/CD tools.
 Secure SSH authentication for server access.
 Regular monitoring and logging to detect unauthorized activities.
-
-
