@@ -6,7 +6,7 @@ const SERVICES = [
   { key: 'controller',   label: 'Pipeline Controller', port: 9000 },
   { key: 'analyzer',     label: 'Log Analyzer',        port: 5001 },
   { key: 'classifier',   label: 'Failure Classifier',  port: 8000 },
-  { key: 'recovery',     label: 'Recovery Manager',    port: 6000 },
+  { key: 'recovery',     label: 'Recovery Manager',    port: 6001 },
   { key: 'notification', label: 'Notification',        port: 7000 },
 ];
 

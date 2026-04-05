@@ -1265,7 +1265,7 @@ class GracefulServer:
             rate_limit=f"{CONFIG.rate_limit}/min",
             auth="enabled" if CONFIG.secret_key else "disabled",
         )
-        print(f"\n  Log Analyzer v{CONFIG.version}  →  http://{host}:{port}/api/v1/docs\n")
+        print(f"\n  Log Analyzer v{CONFIG.version}  ->  http://{host}:{port}/api/v1/docs\n")
         self._server.serve_forever(poll_interval=0.5)
 
     def _signal_handler(self, signum, _frame) -> None:
