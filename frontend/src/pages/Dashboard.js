@@ -3,11 +3,11 @@ import { api } from '../api';
 import { useApp } from '../context/AppContext';
 
 const SERVICES = [
-  { key: 'controller',   label: 'Pipeline Controller', port: 9000 },
-  { key: 'analyzer',     label: 'Log Analyzer',        port: 5001 },
-  { key: 'classifier',   label: 'Failure Classifier',  port: 8000 },
-  { key: 'recovery',     label: 'Recovery Manager',    port: 6001 },
-  { key: 'notification', label: 'Notification',        port: 7000 },
+  { key: 'controller',   label: 'Pipeline Controller' },
+  { key: 'analyzer',     label: 'Log Analyzer'        },
+  { key: 'classifier',   label: 'Failure Classifier'  },
+  { key: 'recovery',     label: 'Recovery Manager'    },
+  { key: 'notification', label: 'Notification'        },
 ];
 
 function severityBadge(s) {
@@ -119,8 +119,7 @@ export default function Dashboard() {
                 padding: '14px 14px 12px',
               }}>
                 <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 4 }}>{s.label}</div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: 11, color: 'var(--text3)', fontFamily: 'var(--mono)' }}>:{s.port}</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                   <div className={`dot dot-${state}`} />
                 </div>
                 {h?.data?.dependencies && (

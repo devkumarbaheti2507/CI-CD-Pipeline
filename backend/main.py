@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import json
 from datetime import datetime, timezone
 
@@ -15,6 +16,14 @@ import log_analyzer
 
 # Create the main Vercel entrypoint app
 app = FastAPI(title="CI/CD Backend Monolith", version="1.0.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Mount existing FastAPI microservices to specific routing paths
 app.mount("/classifier", failure_app)
