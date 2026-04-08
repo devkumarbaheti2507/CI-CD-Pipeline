@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/main.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/classifier/(.*)", "dest": "backend/main.py" },
+    { "src": "/github/(.*)",     "dest": "backend/main.py" },
+    { "src": "/notification/(.*)", "dest": "backend/main.py" },
+    { "src": "/pipeline/(.*)",   "dest": "backend/main.py" },
+    { "src": "/recovery/(.*)",   "dest": "backend/main.py" },
+    { "src": "/api/(.*)",        "dest": "backend/main.py" },
+    { "src": "/(.*)",            "dest": "backend/main.py" }
+  ]
+}

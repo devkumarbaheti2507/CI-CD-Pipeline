@@ -43,4 +43,32 @@ pytest tests/test_whitebox.py -v
 
 # Black-box (integration) tests — all services must be running
 pytest tests/test_blackbox.py -v
-``` 
+```
+
+---
+
+## Vercel Deployment
+
+The backend ships a single FastAPI monolith entry-point (`main.py`) that mounts all six microservices at sub-paths, making it deployable as a Vercel serverless function.
+
+**Deploy steps:**
+
+1. Import the repository into [vercel.com](https://vercel.com).
+2. Set the **Root Directory** to the repository root (not `backend/`).
+3. Vercel will detect `vercel.json` at the root and use `backend/main.py` as the Python entry-point.
+4. Add your environment variables in the Vercel project settings (see `.env.example`).
+5. After deployment, copy the Vercel URL and paste it into `frontend/.env.production` for the frontend build.
+
+**Sub-path routing (from `vercel.json`):**
+
+| Path prefix | Mounted service |
+|---|---|
+| `/classifier/*` | Failure Classifier |
+| `/github/*` | GitHub Adapter |
+| `/notification/*` | Notification Service |
+| `/pipeline/*` | Pipeline Controller |
+| `/recovery/*` | Recovery Manager |
+| `/api/v1/*` | Log Analyzer |
+| `/*` | Root health check |
+
+> **Note:** Redis and Jenkins are external dependencies. Vercel serverless functions are stateless — you will need a managed Redis (e.g. Upstash) and an externally hosted Jenkins instance for full functionality on Vercel.

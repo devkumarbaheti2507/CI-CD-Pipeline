@@ -1,0 +1,192 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CI/CD Pipeline — Docker Compose
+#
+# Quick start:
+#   cp backend/.env.example backend/.env   # fill in credentials
+#   docker compose up --build
+#
+# Frontend:           http://localhost:3000
+# Pipeline Controller http://localhost:9000
+# Log Analyzer:       http://localhost:5001
+# Failure Classifier: http://localhost:8000
+# Recovery Manager:   http://localhost:6001
+# Notification:       http://localhost:7000
+# GitHub Adapter:     http://localhost:9001
+# Jenkins:            http://localhost:8080
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+
+  # ── Infrastructure ──────────────────────────────────────────────────────────
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  jenkins:
+    image: jenkins/jenkins:lts-jdk17
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+
+  # ── Backend Microservices ────────────────────────────────────────────────────
+
+  log-analyzer:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["python", "log_analyzer.py"]
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    environment:
+      - LOG_ANALYZER_HOST=0.0.0.0
+      - LOG_ANALYZER_PORT=5001
+    env_file:
+      - ./backend/.env
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5001/api/v1/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  failure-classifier:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["uvicorn", "failure_classifier:app", "--host", "0.0.0.0", "--port", "8000"]
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  recovery-manager:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["uvicorn", "recovery_manager:app", "--host", "0.0.0.0", "--port", "6001"]
+    restart: unless-stopped
+    ports:
+      - "6001:6001"
+    environment:
+      - JENKINS_URL=http://jenkins:8080
+    env_file:
+      - ./backend/.env
+    depends_on:
+      jenkins:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:6001/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  notification-service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["uvicorn", "notification_service:app", "--host", "0.0.0.0", "--port", "7000"]
+    restart: unless-stopped
+    ports:
+      - "7000:7000"
+    env_file:
+      - ./backend/.env
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:7000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pipeline-controller:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["uvicorn", "pipeline_controller:app", "--host", "0.0.0.0", "--port", "9000"]
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - LOG_ANALYZER_URL=http://log-analyzer:5001/api/v1/analyze
+      - LOG_ANALYZER_HEALTH_URL=http://log-analyzer:5001/api/v1/health
+      - RECOVERY_SERVICE_URL=http://recovery-manager:6001/recover
+      - NOTIFICATION_SERVICE_URL=http://notification-service:7000/notify
+      - JENKINS_URL=http://jenkins:8080
+      - ALLOWED_LOG_HOSTS=jenkins,jenkins.internal
+    env_file:
+      - ./backend/.env
+    depends_on:
+      redis:
+        condition: service_healthy
+      log-analyzer:
+        condition: service_healthy
+      failure-classifier:
+        condition: service_healthy
+      recovery-manager:
+        condition: service_healthy
+      notification-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  github-adapter:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["uvicorn", "github_adapter:app", "--host", "0.0.0.0", "--port", "9001"]
+    restart: unless-stopped
+    ports:
+      - "9001:9001"
+    environment:
+      - PIPELINE_CONTROLLER_URL=http://pipeline-controller:9000/pipeline-event
+      - JENKINS_URL=http://jenkins:8080
+    env_file:
+      - ./backend/.env
+    depends_on:
+      pipeline-controller:
+        condition: service_healthy
+
+  # ── Frontend ─────────────────────────────────────────────────────────────────
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_CONTROLLER_URL=http://localhost:9000
+        - REACT_APP_ANALYZER_URL=http://localhost:5001
+        - REACT_APP_CLASSIFIER_URL=http://localhost:8000
+        - REACT_APP_RECOVERY_URL=http://localhost:6001
+        - REACT_APP_NOTIFICATION_URL=http://localhost:7000
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      pipeline-controller:
+        condition: service_healthy
+
+volumes:
+  jenkins_home:
