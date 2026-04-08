@@ -16,7 +16,7 @@ set STATUS_API_KEY=mysecretkey123
 set ALLOWED_LOG_HOSTS=localhost,127.0.0.1
 set JENKINS_URL=http://localhost:8080
 set JENKINS_USER=admin
-set JENKINS_TOKEN=1169165d0fe8694a8116e084b26901a58a
+set JENKINS_TOKEN=paste_your_jenkins_api_token_here
 set LOG_ANALYZER_URL=http://localhost:5001/api/v1/analyze
 set LOG_ANALYZER_HEALTH_URL=http://localhost:5001/api/v1/health
 set RECOVERY_SERVICE_URL=http://localhost:6001/recover
@@ -50,27 +50,27 @@ timeout /t 3 /nobreak >nul
 
 echo.
 echo [1/6] Starting Log Analyzer on port 5001...
-start "Log Analyzer :5001" cmd /k "cd /d %~dp0 && python log_analyzer.py"
+start "Log Analyzer :5001" cmd /k "cd /d %~dp0..\backend && python log_analyzer.py"
 timeout /t 3 /nobreak >nul
 
 echo [2/6] Starting Failure Classifier on port 8000...
-start "Failure Classifier :8000" cmd /k "cd /d %~dp0 && python -m uvicorn failure_classifier:app --host 0.0.0.0 --port 8000"
+start "Failure Classifier :8000" cmd /k "cd /d %~dp0..\backend && python -m uvicorn failure_classifier:app --host 0.0.0.0 --port 8000"
 timeout /t 3 /nobreak >nul
 
 echo [3/6] Starting Recovery Manager on port 6001...
-start "Recovery Manager :6001" cmd /k "cd /d %~dp0 && set JENKINS_URL=%JENKINS_URL%&& set JENKINS_USER=%JENKINS_USER%&& set JENKINS_TOKEN=%JENKINS_TOKEN%&& python -m uvicorn recovery_manager:app --host 0.0.0.0 --port 6001"
+start "Recovery Manager :6001" cmd /k "cd /d %~dp0..\backend && set JENKINS_URL=%JENKINS_URL%&& set JENKINS_USER=%JENKINS_USER%&& set JENKINS_TOKEN=%JENKINS_TOKEN%&& python -m uvicorn recovery_manager:app --host 0.0.0.0 --port 6001"
 timeout /t 3 /nobreak >nul
 
 echo [4/6] Starting Notification Service on port 7000...
-start "Notification Service :7000" cmd /k "cd /d %~dp0 && python -m uvicorn notification_service:app --host 0.0.0.0 --port 7000"
+start "Notification Service :7000" cmd /k "cd /d %~dp0..\backend && python -m uvicorn notification_service:app --host 0.0.0.0 --port 7000"
 timeout /t 3 /nobreak >nul
 
 echo [5/6] Starting Pipeline Controller on port 9000...
-start "Pipeline Controller :9000" cmd /k "cd /d %~dp0 && set REDIS_URL=%REDIS_URL%&& set STATUS_API_KEY=%STATUS_API_KEY%&& set ALLOWED_LOG_HOSTS=%ALLOWED_LOG_HOSTS%&& set JENKINS_USER=%JENKINS_USER%&& set JENKINS_TOKEN=%JENKINS_TOKEN%&& set LOG_ANALYZER_URL=%LOG_ANALYZER_URL%&& set LOG_ANALYZER_HEALTH_URL=%LOG_ANALYZER_HEALTH_URL%&& set RECOVERY_SERVICE_URL=%RECOVERY_SERVICE_URL%&& set RECOVERY_HEALTH_URL=%RECOVERY_HEALTH_URL%&& set NOTIFICATION_SERVICE_URL=%NOTIFICATION_SERVICE_URL%&& set NOTIFICATION_HEALTH_URL=%NOTIFICATION_HEALTH_URL%&& python -m uvicorn pipeline_controller:app --host 0.0.0.0 --port 9000"
+start "Pipeline Controller :9000" cmd /k "cd /d %~dp0..\backend && set REDIS_URL=%REDIS_URL%&& set STATUS_API_KEY=%STATUS_API_KEY%&& set ALLOWED_LOG_HOSTS=%ALLOWED_LOG_HOSTS%&& set JENKINS_USER=%JENKINS_USER%&& set JENKINS_TOKEN=%JENKINS_TOKEN%&& set LOG_ANALYZER_URL=%LOG_ANALYZER_URL%&& set LOG_ANALYZER_HEALTH_URL=%LOG_ANALYZER_HEALTH_URL%&& set RECOVERY_SERVICE_URL=%RECOVERY_SERVICE_URL%&& set RECOVERY_HEALTH_URL=%RECOVERY_HEALTH_URL%&& set NOTIFICATION_SERVICE_URL=%NOTIFICATION_SERVICE_URL%&& set NOTIFICATION_HEALTH_URL=%NOTIFICATION_HEALTH_URL%&& python -m uvicorn pipeline_controller:app --host 0.0.0.0 --port 9000"
 timeout /t 4 /nobreak >nul
 
 echo [6/6] Starting GitHub Webhook Adapter on port 9001...
-start "GitHub Adapter :9001" cmd /k "cd /d %~dp0 && set PIPELINE_CONTROLLER_URL=%PIPELINE_CONTROLLER_URL%&& set JENKINS_URL=%JENKINS_URL%&& set GITHUB_WEBHOOK_SECRET=%GITHUB_WEBHOOK_SECRET%&& python -m uvicorn github_adapter:app --host 0.0.0.0 --port 9001"
+start "GitHub Adapter :9001" cmd /k "cd /d %~dp0..\backend && set PIPELINE_CONTROLLER_URL=%PIPELINE_CONTROLLER_URL%&& set JENKINS_URL=%JENKINS_URL%&& set GITHUB_WEBHOOK_SECRET=%GITHUB_WEBHOOK_SECRET%&& python -m uvicorn github_adapter:app --host 0.0.0.0 --port 9001"
 timeout /t 3 /nobreak >nul
 
 echo.
