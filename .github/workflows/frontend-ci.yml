@@ -16,6 +16,8 @@ jobs:
   build:
     name: Node.js Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository

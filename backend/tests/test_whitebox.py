@@ -54,7 +54,7 @@ class TestAllServicesWhiteBox(unittest.TestCase):
         )
         msg_out = build_message(req)
 
-        self.assertIn("\u274c", msg_out, "Failed status must inject specific unicode marker")
+        self.assertIn("❌", msg_out, "Failed status must inject specific unicode marker")
         self.assertIn("pipe-1234", msg_out, "Pipeline ID missing from template engine layout")
         self.assertIn("Triggered", msg_out, "Boolean triggers should map to specific text injections")
         print("[INFO] Verified: Template engine correctly composed the abstract syntax into a strict Markdown Notification string.")
@@ -400,7 +400,7 @@ class TestGitHubAdapterHTTP(unittest.TestCase):
     def setUpClass(cls):
         from fastapi.testclient import TestClient
         from github_adapter import app as github_app
-        cls.client = TestClient(github_app, raise_server_exceptions=False)
+        cls.client = TestClient(github_app, raise_server_exceptions=True)
 
     def test_ping_event_returns_pong(self):
         """A ping event must return the pong message."""
