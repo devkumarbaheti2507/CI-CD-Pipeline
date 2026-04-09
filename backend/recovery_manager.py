@@ -31,6 +31,7 @@ class FailureType(str, Enum):
     DEPLOY_ERROR     = "DEPLOY_ERROR"
     DEPENDENCY_ERROR = "DEPENDENCY_ERROR"
     TIMEOUT          = "TIMEOUT"
+    CONFIG_ERROR     = "CONFIG_ERROR"
     UNKNOWN          = "UNKNOWN"
 
 
@@ -65,6 +66,7 @@ RECOVERY_RULES: dict = {
     FailureType.DEPLOY_ERROR:     RecoveryAction.ROLLBACK,
     FailureType.DEPENDENCY_ERROR: RecoveryAction.RETRY,
     FailureType.TIMEOUT:          RecoveryAction.RESTART,
+    FailureType.CONFIG_ERROR:     RecoveryAction.MANUAL,
     FailureType.UNKNOWN:          RecoveryAction.MANUAL,
 }
 
