@@ -94,3 +94,11 @@ async def github_webhook(request: Request):
 @app.get("/health")
 async def health():
     return {"service": "github-adapter", "status": "ok"}
+
+
+@app.post("/webhook")
+async def handle_github_webhook(request: Request):
+    payload = await request.json()
+    print("Received webhook payload!")
+    # Your logic to trigger Jenkins goes here
+    return {"status": "success"}
