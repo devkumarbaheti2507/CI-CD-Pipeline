@@ -45,6 +45,8 @@ export const api = {
       headers: { 'Content-Type': 'application/json', ...(apiKey ? { 'X-API-Key': apiKey } : {}) },
     }),
 
+  getEvents: () => request(`${URLS.controller}/events`),
+
   // Log Analyzer
   analyzeLogs: (log, source = 'dashboard') =>
     request(`${URLS.analyzer}/api/v1/analyze`, {

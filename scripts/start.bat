@@ -12,11 +12,11 @@ echo.
 
 :: ── Configuration — Edit these values ────────────────────────
 set REDIS_URL=redis://localhost:6379
-set STATUS_API_KEY=mysecretkey123
-set ALLOWED_LOG_HOSTS=localhost,127.0.0.1
+set STATUS_API_KEY=aryanGod
+set ALLOWED_LOG_HOSTS=localhost,127.0.0.1,jenkins
 set JENKINS_URL=http://localhost:8080
 set JENKINS_USER=admin
-set JENKINS_TOKEN=paste_your_jenkins_api_token_here
+set JENKINS_TOKEN=11967c08df669b5d6fab6828ccf5183bdc
 set LOG_ANALYZER_URL=http://localhost:5001/api/v1/analyze
 set LOG_ANALYZER_HEALTH_URL=http://localhost:5001/api/v1/health
 set RECOVERY_SERVICE_URL=http://localhost:8001/recover
@@ -24,7 +24,7 @@ set RECOVERY_HEALTH_URL=http://localhost:8001/health
 set NOTIFICATION_SERVICE_URL=http://localhost:7000/notify
 set NOTIFICATION_HEALTH_URL=http://localhost:7000/health
 set PIPELINE_CONTROLLER_URL=http://localhost:9000/pipeline-event
-set GITHUB_WEBHOOK_SECRET=
+set GITHUB_WEBHOOK_SECRET=aryanKing
 :: ─────────────────────────────────────────────────────────────
 
 echo [*] Starting Redis...
