@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import json
 from datetime import datetime, timezone
+from contextlib import asynccontextmanager, AsyncExitStack
 
 # Import microservice FastAPI apps
 from failure_classifier import app as failure_app
@@ -14,8 +15,16 @@ from recovery_manager import app as recovery_app
 # Import log analyzer module directly since it uses standard http.server
 import log_analyzer
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    async with AsyncExitStack() as stack:
+        for sub_app in [failure_app, github_app, notification_app, pipeline_app, recovery_app]:
+            if hasattr(sub_app, "router") and hasattr(sub_app.router, "lifespan_context"):
+                await stack.enter_async_context(sub_app.router.lifespan_context(sub_app))
+        yield
+
 # Create the main Vercel entrypoint app
-app = FastAPI(title="CI/CD Backend Monolith", version="1.0.0")
+app = FastAPI(title="CI/CD Backend Monolith", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

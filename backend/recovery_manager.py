@@ -44,7 +44,7 @@ class RecoveryAction(str, Enum):
 
 class RecoverRequest(BaseModel):
     pipeline_id:  str
-    failure_type: FailureType
+    failure_type: str = "UNKNOWN"
     run_number:   Optional[int] = None
     branch:       Optional[str] = None
     attempt:      int           = 1
@@ -222,7 +222,15 @@ async def recover(req: RecoverRequest):
         req.pipeline_id, req.failure_type, req.attempt,
     )
 
-    action  = RECOVERY_RULES.get(req.failure_type, RecoveryAction.MANUAL)
+    try:
+        if not req.failure_type:
+            f_type = FailureType.UNKNOWN
+        else:
+            f_type = FailureType(req.failure_type)
+    except ValueError:
+        f_type = FailureType.UNKNOWN
+
+    action  = RECOVERY_RULES.get(f_type, RecoveryAction.MANUAL)
     handler = HANDLERS[action]
 
     success, message = await handler(req)
@@ -234,7 +242,7 @@ async def recover(req: RecoverRequest):
 
     return RecoverResponse(
         pipeline_id  = req.pipeline_id,
-        failure_type = req.failure_type.value,
+        failure_type = f_type.value,
         action_taken = action,
         success      = success,
         message      = message,
