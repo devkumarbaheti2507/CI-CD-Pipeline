@@ -4,7 +4,7 @@ const DEFAULTS = {
   REACT_APP_CONTROLLER_URL:   'http://localhost:9000',
   REACT_APP_ANALYZER_URL:     'http://localhost:5001',
   REACT_APP_CLASSIFIER_URL:   'http://localhost:8000',
-  REACT_APP_RECOVERY_URL:     'http://localhost:6000',
+  REACT_APP_RECOVERY_URL:     'http://localhost:6001',
   REACT_APP_NOTIFICATION_URL: 'http://localhost:7000',
 };
 
@@ -109,7 +109,7 @@ export default function Settings() {
         <div className="card-title">How to Run</div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
           {[
-            { step: '1', title: 'Start backend services', code: 'python log_analyzer.py\nuvicorn failure_classifier:app --port 8000\nuvicorn recovery_manager:app --port 6000\nuvicorn notification_service:app --port 7000\nuvicorn pipeline_controller:app --port 9000' },
+            { step: '1', title: 'Start backend services', code: 'python log_analyzer.py\nuvicorn failure_classifier:app --port 8000\nuvicorn recovery_manager:app --port 6001\nuvicorn notification_service:app --port 7000\nuvicorn pipeline_controller:app --port 9000' },
             { step: '2', title: 'Install and run UI', code: 'cd cicd-dashboard\nnpm install\nnpm start\n\n# Opens at http://localhost:3000' },
             { step: '3', title: 'Build for production', code: 'npm run build\n\n# Outputs to cicd-dashboard/build/\n# Serve with any static file server\n# e.g: npx serve -s build' },
           ].map(({ step, title, code }) => (

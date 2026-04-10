@@ -18,7 +18,7 @@ Environment variables
   REDIS_URL                   redis://localhost:6379
   LOG_ANALYZER_URL            http://log-analyzer:5001/analyze
   LOG_ANALYZER_HEALTH_URL     http://log-analyzer:5001/health
-  RECOVERY_SERVICE_URL        http://recovery-manager:6000/recover
+  RECOVERY_SERVICE_URL        http://recovery-manager:6001/recover
   NOTIFICATION_SERVICE_URL    http://notification-service:7000/notify
   STATUS_API_KEY              (optional) API key for /pipeline-status
   ALLOWED_LOG_HOSTS           (optional) comma-separated hostnames that are
