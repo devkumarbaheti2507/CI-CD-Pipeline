@@ -30,11 +30,11 @@ class TestAllServicesBlackBox(unittest.TestCase):
             self.assertEqual(data["recovery"], "ROLLBACK", "API failed to trigger production rollback constraint")
             print("[INFO] Verified: System securely triggered a ROLLBACK for production deployment error.")
 
-    # ── 2. Recovery Manager (Port 6001 - Black Box API Test) ──
+    # ── 2. Recovery Manager (Port 8001 - Black Box API Test) ──
     def test_rm_recover_endpoint(self):
-        print("\n[INFO] Starting Black Box Test: Recovery Manager (Port 6001)")
+        print("\n[INFO] Starting Black Box Test: Recovery Manager (Port 8001)")
         # Even if Jenkins is not configured, API should respond safely with attempts evaluated
-        url = "http://localhost:6001/recover"
+        url = "http://localhost:8001/recover"
         payload = json.dumps({
             "pipeline_id": "test-box",
             "failure_type": "TEST_FAILURE",

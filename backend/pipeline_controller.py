@@ -18,7 +18,7 @@ Environment variables
   REDIS_URL                   redis://localhost:6379
   LOG_ANALYZER_URL            http://log-analyzer:5001/analyze
   LOG_ANALYZER_HEALTH_URL     http://log-analyzer:5001/health
-  RECOVERY_SERVICE_URL        http://recovery-manager:6001/recover
+  RECOVERY_SERVICE_URL        http://recovery-manager:8001/recover
   NOTIFICATION_SERVICE_URL    http://notification-service:7000/notify
   STATUS_API_KEY              (optional) API key for /pipeline-status
   ALLOWED_LOG_HOSTS           (optional) comma-separated hostnames that are
@@ -67,9 +67,9 @@ APP_VERSION = "1.0.0"
 REDIS_URL                = os.getenv("REDIS_URL",                "redis://localhost:6379")
 LOG_ANALYZER_URL         = os.getenv("LOG_ANALYZER_URL",         "http://localhost:5001/api/v1/analyze")
 LOG_ANALYZER_HEALTH_URL  = os.getenv("LOG_ANALYZER_HEALTH_URL",  "http://localhost:5001/api/v1/health")
-RECOVERY_SERVICE_URL     = os.getenv("RECOVERY_SERVICE_URL",     "http://localhost:6001/recover")
+RECOVERY_SERVICE_URL     = os.getenv("RECOVERY_SERVICE_URL",     "http://localhost:8001/recover")
 NOTIFICATION_SERVICE_URL = os.getenv("NOTIFICATION_SERVICE_URL", "http://localhost:7000/notify")
-RECOVERY_HEALTH_URL      = os.getenv("RECOVERY_HEALTH_URL",      "http://localhost:6001/health")
+RECOVERY_HEALTH_URL      = os.getenv("RECOVERY_HEALTH_URL",      "http://localhost:8001/health")
 NOTIFICATION_HEALTH_URL  = os.getenv("NOTIFICATION_HEALTH_URL",  "http://localhost:7000/health")
 JENKINS_USER             = os.getenv("JENKINS_USER",             "admin")
 JENKINS_TOKEN            = os.getenv("JENKINS_TOKEN",            "")

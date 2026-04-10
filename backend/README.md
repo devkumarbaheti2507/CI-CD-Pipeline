@@ -9,7 +9,7 @@ Python microservices that power the CI/CD Pipeline automated-recovery system.
 | `pipeline_controller.py` | 9000 | Accepts pipeline events, orchestrates recovery |
 | `log_analyzer.py` | 5001 | Parses and classifies raw build/test logs |
 | `failure_classifier.py` | 8000 | Maps failure type + branch to severity and recovery action |
-| `recovery_manager.py` | 6001 | Executes recovery actions (retry, rollback, restart via Jenkins) |
+| `recovery_manager.py` | 8001 | Executes recovery actions (retry, rollback, restart via Jenkins) |
 | `notification_service.py` | 7000 | Sends email / Slack / webhook alerts |
 | `github_adapter.py` | 9001 | Validates GitHub webhook signatures and forwards events |
 | `main.py` | — | FastAPI monolith entry-point for serverless deployment (Vercel) |

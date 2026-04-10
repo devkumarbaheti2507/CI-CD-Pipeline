@@ -68,7 +68,7 @@ export default function Sidebar({ page, setPage }) {
         :9000 controller{'\n'}
         :5001 analyzer{'\n'}
         :8000 classifier{'\n'}
-        :6001 recovery{'\n'}
+        :8001 recovery{'\n'}
         :7000 notification
       </div>
     </aside>

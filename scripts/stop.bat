@@ -12,7 +12,7 @@ echo.
 echo [*] Stopping Python services (uvicorn + log_analyzer)...
 taskkill /F /FI "WINDOWTITLE eq Log Analyzer :5001*" >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq Failure Classifier :8000*" >nul 2>&1
-taskkill /F /FI "WINDOWTITLE eq Recovery Manager :6001*" >nul 2>&1
+taskkill /F /FI "WINDOWTITLE eq Recovery Manager :8001*" >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq Notification Service :7000*" >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq Pipeline Controller :9000*" >nul 2>&1
 taskkill /F /FI "WINDOWTITLE eq GitHub Adapter :9001*" >nul 2>&1

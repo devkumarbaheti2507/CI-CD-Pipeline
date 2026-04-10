@@ -3,7 +3,7 @@ const URLS = {
   controller:   process.env.REACT_APP_CONTROLLER_URL   || 'http://localhost:9000',
   analyzer:     process.env.REACT_APP_ANALYZER_URL     || 'http://localhost:5001',
   classifier:   process.env.REACT_APP_CLASSIFIER_URL   || 'http://localhost:8000',
-  recovery:     process.env.REACT_APP_RECOVERY_URL     || 'http://localhost:6001',
+  recovery:     process.env.REACT_APP_RECOVERY_URL     || 'http://localhost:8001',
   notification: process.env.REACT_APP_NOTIFICATION_URL || 'http://localhost:7000',
 };
 

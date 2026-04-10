@@ -19,8 +19,8 @@ set JENKINS_USER=admin
 set JENKINS_TOKEN=paste_your_jenkins_api_token_here
 set LOG_ANALYZER_URL=http://localhost:5001/api/v1/analyze
 set LOG_ANALYZER_HEALTH_URL=http://localhost:5001/api/v1/health
-set RECOVERY_SERVICE_URL=http://localhost:6001/recover
-set RECOVERY_HEALTH_URL=http://localhost:6001/health
+set RECOVERY_SERVICE_URL=http://localhost:8001/recover
+set RECOVERY_HEALTH_URL=http://localhost:8001/health
 set NOTIFICATION_SERVICE_URL=http://localhost:7000/notify
 set NOTIFICATION_HEALTH_URL=http://localhost:7000/health
 set PIPELINE_CONTROLLER_URL=http://localhost:9000/pipeline-event
@@ -57,8 +57,8 @@ echo [2/6] Starting Failure Classifier on port 8000...
 start "Failure Classifier :8000" cmd /k "cd /d %~dp0..\backend && python -m uvicorn failure_classifier:app --host 0.0.0.0 --port 8000"
 timeout /t 3 /nobreak >nul
 
-echo [3/6] Starting Recovery Manager on port 6001...
-start "Recovery Manager :6001" cmd /k "cd /d %~dp0..\backend && set JENKINS_URL=%JENKINS_URL%&& set JENKINS_USER=%JENKINS_USER%&& set JENKINS_TOKEN=%JENKINS_TOKEN%&& python -m uvicorn recovery_manager:app --host 0.0.0.0 --port 6001"
+echo [3/6] Starting Recovery Manager on port 8001...
+start "Recovery Manager :8001" cmd /k "cd /d %~dp0..\backend && set JENKINS_URL=%JENKINS_URL%&& set JENKINS_USER=%JENKINS_USER%&& set JENKINS_TOKEN=%JENKINS_TOKEN%&& python -m uvicorn recovery_manager:app --host 0.0.0.0 --port 8001"
 timeout /t 3 /nobreak >nul
 
 echo [4/6] Starting Notification Service on port 7000...
@@ -82,7 +82,7 @@ echo    Pipeline Controller  :9000
 echo    GitHub Adapter       :9001
 echo    Log Analyzer         :5001
 echo    Failure Classifier   :8000
-echo    Recovery Manager     :6001
+echo    Recovery Manager     :8001
 echo    Notification Service :7000
 echo    Redis                :6379
 echo    Jenkins              :8080

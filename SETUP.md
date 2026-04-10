@@ -121,7 +121,7 @@ This script will:
 |---|---|
 | Log Analyzer | 5001 |
 | Failure Classifier | 8000 |
-| Recovery Manager | 6001 |
+| Recovery Manager | 8001 |
 | Notification Service | 7000 |
 | Pipeline Controller | 9000 |
 | GitHub Adapter | 9001 |
@@ -168,7 +168,7 @@ Open a browser and check each health endpoint:
 |---|---|
 | Log Analyzer | http://localhost:5001/api/v1/health |
 | Failure Classifier | http://localhost:8000/health |
-| Recovery Manager | http://localhost:6001/health |
+| Recovery Manager | http://localhost:8001/health |
 | Notification Service | http://localhost:7000/health |
 | Pipeline Controller | http://localhost:9000/health |
 | GitHub Adapter | http://localhost:9001/health |

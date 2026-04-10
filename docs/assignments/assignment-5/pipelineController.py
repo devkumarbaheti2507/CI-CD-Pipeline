@@ -30,7 +30,7 @@ APP_VERSION = "1.0.0"
 REDIS_URL                = os.getenv("REDIS_URL",                "redis://localhost:6379")
 LOG_ANALYZER_URL         = os.getenv("LOG_ANALYZER_URL",         "http://log-analyzer:5001/analyze")
 LOG_ANALYZER_HEALTH_URL  = os.getenv("LOG_ANALYZER_HEALTH_URL",  "http://log-analyzer:5001/health")
-RECOVERY_SERVICE_URL     = os.getenv("RECOVERY_SERVICE_URL",     "http://recovery-manager:6001/recover")
+RECOVERY_SERVICE_URL     = os.getenv("RECOVERY_SERVICE_URL",     "http://recovery-manager:8001/recover")
 NOTIFICATION_SERVICE_URL = os.getenv("NOTIFICATION_SERVICE_URL", "http://notification-service:7000/notify")
 
 HTTP_TIMEOUT         = float(os.getenv("HTTP_TIMEOUT",         "20"))
